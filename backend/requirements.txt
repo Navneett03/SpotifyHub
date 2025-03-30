@@ -4,3 +4,4 @@ spotipy
 langchain
 langchain_google_genai
 faiss-cpu
+langchain_community
