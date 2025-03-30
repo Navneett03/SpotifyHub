@@ -1,0 +1,6 @@
+flask
+flask-cors
+spotipy
+langchain
+langchain_google_genai
+faiss-cpu
