@@ -85,7 +85,7 @@ Once all services are running:
 
 - **Frontend**: React, TailwindCSS, Vite
 - **Backend**: Node.js, Express, Python (Flask for chatbot API)
-- **Database**: (If applicable, mention here)
+- **Database**: MySql, Csv
 - **APIs**: Spotify Web API
 
 ## Contribution
