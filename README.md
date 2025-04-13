@@ -110,21 +110,7 @@ pip install -r requirements.txt
     ```
 
 ---
-## Usage
 
-Once the application is set up and running, follow these steps to use it:
-
-1. **Open the frontend** in your browser at `http://localhost:3000`.
-2. **Login** using your Spotify account (OAuth authentication is required).
-3. **Navigate through the pages**:
-   - **Overview Page**: Displays your user activity and trends.
-   - **Artist Rankings**: View trending artists based on your listening habits.
-   - **Recommendations Page**: Get personalized song and artist recommendations.
-   - **Chatbot Page**: Interact with the AI-powered chatbot to ask questions about your data.
-4. **Enjoy automated newsletters**: You'll receive periodic emails summarizing key insights from your listening activity.
-
-For more information, check the individual page documentation or reach out to the project maintainers.
----
 ## Technologies Used
 
 - **Frontend**: React, React Router, Tailwind CSS, Axios, Framer Motion, Recharts
