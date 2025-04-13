@@ -40,14 +40,25 @@ def fetch_weekly_recent_tracks(user_id):
 
 
 def process_weekly_distribution(data):
-    days = [0] * 7  # Index 0 = Monday, 6 = Sunday
+    # Prepare past 7 dates (from 6 days ago to today)
+    today = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+    past_7_days = [(today - timedelta(days=i)) for i in range(6, -1, -1)]
+
+    # Create a mapping from date (only) to index
+    date_index_map = {d.date(): i for i, d in enumerate(past_7_days)}
+    hours_per_day = [0] * 7
 
     for played_at, duration_ms, _ in data:
         if played_at:
-            day_index = played_at.weekday()  # 0 = Monday, 6 = Sunday
-            days[day_index] += duration_ms / (1000 * 60 * 60)  # convert ms to hours
+            date_only = played_at.date()
+            if date_only in date_index_map:
+                index = date_index_map[date_only]
+                hours_per_day[index] += duration_ms / (1000 * 60 * 60)  # ms to hours
 
-    return days
+    # Format labels as "Mon\nApr 7"
+    x_labels = [d.strftime("%a\n%b %d") for d in past_7_days]
+    
+    return hours_per_day, x_labels
 
 
 def process_genre_distribution(data):
@@ -129,16 +140,18 @@ def main():
             print("No data found.")
             continue
 
-        weekly_distribution = process_weekly_distribution(data)
+        hours_per_day, x_labels = process_weekly_distribution(data)
         genre_distribution = process_genre_distribution(data)
 
-        update_weekly_distribution(user_id, weekly_distribution)
+        update_weekly_distribution(user_id, hours_per_day)
         update_genre_distribution(user_id, genre_distribution)
 
-        generate_weekly_listening_chart(user_id, weekly_distribution)
-        generate_genre_distribution_chart(user_id, genre_distribution)
+        weekly_chart_path = generate_weekly_listening_chart(user_id, hours_per_day, x_labels)
+        genre_chart_path = generate_genre_distribution_chart(user_id, genre_distribution)
 
         print(f"✅ Charts generated and data updated for user: {user_id}")
+        print({weekly_chart_path})
+        print({genre_chart_path})
 
 
 if __name__ == "__main__":
