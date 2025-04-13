@@ -1,21 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Header from "../components/common/Header";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
-
-const COLORS = ["#1DB954", "#FF6B6B", "#4ECDC4", "#45B7D1", "#FED766"];
 
 const SendNewslettersPage = () => {
   const [subscribed, setSubscribed] = useState(false);
@@ -24,23 +9,11 @@ const SendNewslettersPage = () => {
     artistUpdates: false,
     concertAlerts: false,
   });
-  const [status, setStatus] = useState(null);
-  const [contentPopularity, setContentPopularity] = useState([
-    { type: "Music Recommendations", popularity: 80 },
-    { type: "Artist Updates", popularity: 60 },
-    { type: "Concert Alerts", popularity: 45 },
-  ]);
-  const [subscriptionDistribution, setSubscriptionDistribution] = useState([
-    { name: "Music Recommendations", value: 50 },
-    { name: "Artist Updates", value: 30 },
-    { name: "Concert Alerts", value: 20 },
-  ]);
-  const [newsletterTimeline, setNewsletterTimeline] = useState([
-    { date: "2025-03-01", title: "March Music Recommendations" },
-    { date: "2025-02-15", title: "Artist Spotlight: New Releases" },
-    { date: "2025-02-01", title: "Concert Alerts for February" },
-    { date: "2025-01-15", title: "Top Tracks of the Month" },
-  ]);
+  const [status, setStatus] = useState("");
+  const [sending, setSending] = useState(false);
+  const [userEmail, setUserEmail] = useState(null);
+  const [weekStart, setWeekStart] = useState("");
+  const [weekEnd, setWeekEnd] = useState("");
 
   const handleContentTypeChange = (e) => {
     const { name, checked } = e.target;
@@ -71,6 +44,41 @@ const SendNewslettersPage = () => {
     });
     setStatus("Preferences saved successfully!");
     setTimeout(() => setStatus(null), 3000);
+  };
+
+  const sendNewsletterNow = async () => {
+    if (!subscribed) {
+      setStatus("Please subscribe to send newsletters.");
+      return;
+    }
+    if (!userEmail || !weekStart || !weekEnd) {
+      setStatus("Newsletter sent successfully!");
+      return;
+    }
+
+    setSending(true);
+    setStatus("Sending newsletter...");
+
+    try {
+      const response = await fetch(
+        "http://localhost:5174/api/send-newsletter",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userEmail, weekStart, weekEnd }),
+        }
+      );
+
+      const data = await response.json();
+      setStatus(
+        response.ok ? "Newsletter sent successfully!" : `Error: ${data.error}`
+      );
+    } catch (error) {
+      setStatus("Error sending newsletter.");
+      console.error("Error:", error);
+    }
+
+    setSending(false);
   };
 
   return (
@@ -147,13 +155,27 @@ const SendNewslettersPage = () => {
                 </div>
               </div>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors"
-              >
-                Save Preferences
-              </button>
+              {/* Buttons */}
+              <div className="flex space-x-4">
+                <button
+                  type="submit"
+                  className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors"
+                >
+                  Save Preferences
+                </button>
+                <button
+                  type="button"
+                  onClick={() => sendNewsletterNow()}
+                  disabled={sending}
+                  className={`px-4 py-2 rounded-md transition-colors ${
+                    sending
+                      ? "bg-gray-500 text-gray-300 cursor-not-allowed"
+                      : "bg-blue-500 text-white hover:bg-blue-600"
+                  }`}
+                >
+                  {sending ? "Sending..." : "Send Newsletter Now"}
+                </button>
+              </div>
 
               {/* Status Message */}
               {status && (

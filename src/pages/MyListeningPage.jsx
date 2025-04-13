@@ -420,7 +420,7 @@ const MyListeningPage = () => {
   };
 
   return (
-    <div className="flex-1 overflow-auto relative z-10 bg-black">
+    <div className="flex-1 overflow-auto relative z-10 ">
       <Header title="My Listening" />
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         {loading ? (
@@ -577,7 +577,7 @@ const MyListeningPage = () => {
               </ResponsiveContainer>
             </motion.div>
 
-            {/* Section 6: Music Travel Map */}
+            {/* Section 6: Music Travel Map
             <motion.div className="glass-card p-6 mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }}>
               <h2 className="text-xl font-semibold text-white mb-4">Music Travel Map</h2>
               <p className="text-gray-300 mb-4">Explore your music by genre and country.</p>
@@ -665,7 +665,7 @@ const MyListeningPage = () => {
                   <p className="text-gray-300">Global Popularity: {artistPopularity.globalPopularity}/100</p>
                 </div>
               )}
-            </motion.div>
+            </motion.div> */}
           </>
         )}
       </main>

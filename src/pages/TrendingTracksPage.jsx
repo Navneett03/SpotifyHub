@@ -191,35 +191,80 @@ const TrendingTracksPage = () => {
   const slideRight = (maxIndex) => setSliderIndex(prev => Math.min(prev + 1, maxIndex - 3)); // Show 3 tracks at a time
 
   return (
-    <div className="flex-1 overflow-auto relative z-10 bg-black text-gray-300">
+    <div className="flex-1 overflow-auto relative z-10 text-gray-300">
       <Header title="Trending Tracks Insights" />
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         {loading ? (
-          <div className="text-center text-gray-400">Loading trending tracks...</div>
+          <div className="text-center text-gray-400">
+            Loading trending tracks...
+          </div>
         ) : error ? (
           <div className="text-center text-red-500">{error}</div>
         ) : (
           <>
-            <motion.div className="glass-card p-6 mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-              <h2 className="text-2xl font-semibold text-white mb-4">What’s Hot on Spotify in 2025?</h2>
-              <p className="mb-4 text-sm">Our take on top tracks, updated: {lastUpdated}</p>
+            <motion.div
+              className="glass-card p-6 mb-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <h2 className="text-2xl font-semibold text-white mb-4">
+                What’s Hot on Spotify in 2025?
+              </h2>
+              <p className="mb-4 text-sm">
+                Our take on top tracks, updated: {lastUpdated}
+              </p>
               <div className="mb-6 p-4 bg-gray-800 rounded-lg">
-                <h3 className="text-lg font-medium text-white mb-2">Quick Look</h3>
-                <p>Avg Popularity: <span className="text-green-500">{summaryStats.avgPopularity}/100</span> (Median: {summaryStats.medianPopularity}) - How popular tracks are.</p>
-                <p>Avg Length: <span className="text-green-500">{summaryStats.avgDuration} min</span> - Typical track duration.</p>
-                <p>Top Genre: <span className="text-green-500">{summaryStats.topGenre}</span> - Covers <span className="text-green-500">{summaryStats.topGenreShare}%</span> of tracks.</p>
+                <h3 className="text-lg font-medium text-white mb-2">
+                  Quick Look
+                </h3>
+                <p>
+                  Avg Popularity:{" "}
+                  <span className="text-green-500">
+                    {summaryStats.avgPopularity}/100
+                  </span>{" "}
+                  (Median: {summaryStats.medianPopularity}) - How popular tracks
+                  are.
+                </p>
+                <p>
+                  Avg Length:{" "}
+                  <span className="text-green-500">
+                    {summaryStats.avgDuration} min
+                  </span>{" "}
+                  - Typical track duration.
+                </p>
+                <p>
+                  Top Genre:{" "}
+                  <span className="text-green-500">
+                    {summaryStats.topGenre}
+                  </span>{" "}
+                  - Covers{" "}
+                  <span className="text-green-500">
+                    {summaryStats.topGenreShare}%
+                  </span>{" "}
+                  of tracks.
+                </p>
               </div>
               <ul className="space-y-3 max-h-[300px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
-                {tracks.map(track => (
-                  <li key={track.id} className="flex items-center p-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors">
+                {tracks.map((track) => (
+                  <li
+                    key={track.id}
+                    className="flex items-center p-2 bg-gray-800 rounded hover:bg-gray-700 transition-colors"
+                  >
                     <img
-                      src={track.album?.images?.[2]?.url || "https://via.placeholder.com/64"}
+                      src={
+                        track.album?.images?.[2]?.url ||
+                        "https://via.placeholder.com/64"
+                      }
                       alt={track.name}
                       className="w-12 h-12 mr-3 rounded"
                     />
                     <div>
                       <p className="text-white font-medium">{track.name}</p>
-                      <p className="text-sm">{track.artists[0]?.name} - Popularity: {track.popularity}</p>
+                      <p className="text-sm">
+                        {track.artists[0]?.name} - Popularity:{" "}
+                        {track.popularity}
+                      </p>
                     </div>
                   </li>
                 ))}
@@ -227,81 +272,255 @@ const TrendingTracksPage = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <motion.div className="glass-card p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-                <h3 className="text-lg font-medium text-white mb-2">Which Genre Stands Out?</h3>
-                <p className="text-xs text-gray-500 mb-4">Share of tracks in the top genre (click it for tracks)</p>
+              <motion.div
+                className="glass-card p-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <h3 className="text-lg font-medium text-white mb-2">
+                  Which Genre Stands Out?
+                </h3>
+                <p className="text-xs text-gray-500 mb-4">
+                  Share of tracks in the top genre (click it for tracks)
+                </p>
                 <ResponsiveContainer width="100%" height={300}>
                   <PieChart>
-                    <Pie data={topGenreShareData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`} onClick={handleGenreDrillDown}>
-                      {topGenreShareData.map((entry, i) => <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />)}
+                    <Pie
+                      data={topGenreShareData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={80}
+                      label={({ name, percent }) =>
+                        `${name} (${(percent * 100).toFixed(0)}%)`
+                      }
+                      onClick={handleGenreDrillDown}
+                    >
+                      {topGenreShareData.map((entry, i) => (
+                        <Cell
+                          key={`cell-${i}`}
+                          fill={COLORS[i % COLORS.length]}
+                        />
+                      ))}
                     </Pie>
-                    <Tooltip contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} formatter={(value, name) => [`${value} tracks (${((value / summaryStats.totalTracks) * 100).toFixed(1)}%)`, name]} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "rgba(31, 41, 55, 0.8)",
+                        borderColor: "#4B5563",
+                        color: "#ffffff",///////
+                      }}
+                      labelStyle={{ color: "#ffffff" }} ///// White label text
+                      itemStyle={{ color: "#ffffff" }}//////
+                      formatter={(value, name) => [
+                        `${value} tracks (${(
+                          (value / summaryStats.totalTracks) *
+                          100
+                        ).toFixed(1)}%)`,
+                        name,
+                      ]}
+                    />
                     <Legend />
                   </PieChart>
                 </ResponsiveContainer>
               </motion.div>
 
-              <motion.div className="glass-card p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-                <h3 className="text-lg font-medium text-white mb-2">Who’s Got the Most Tracks?</h3>
-                <p className="text-xs text-gray-500 mb-4">Number of tracks per artist (click for their tracks)</p>
+              <motion.div
+                className="glass-card p-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                <h3 className="text-lg font-medium text-white mb-2">
+                  Who’s Got the Most Tracks?
+                </h3>
+                <p className="text-xs text-gray-500 mb-4">
+                  Number of tracks per artist (click for their tracks)
+                </p>
                 <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={artistTrackCountData}>
+                  <BarChart
+                    data={artistTrackCountData}
+                    margin={{ top: 20, right: 20, left: 20, bottom: 30 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="name" stroke="#9CA3AF" angle={-45} textAnchor="end" height={60} label={{ value: "Artists", position: "insideBottom", offset: -5 }} />
-                    <YAxis stroke="#9CA3AF" label={{ value: "Number of Tracks", angle: -90, position: "insideLeft" }} />
-                    <Tooltip contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} formatter={(value) => [`${value} tracks`, "Track Count"]} />
-                    <Bar dataKey="count" fill="#1DB954" onClick={handleArtistDrillDown} />
+                    <XAxis
+                      dataKey="name"
+                      stroke="#9CA3AF"
+                      angle={-45}
+                      textAnchor="end"
+                      height={85}
+                      label={{
+                        value: "Artists",
+                        position: "insideBottom",
+                        offset: -30,
+                      }}
+                    />
+                    <YAxis
+                      stroke="#9CA3AF"
+                      label={{
+                        value: "No. of Tracks",
+                        angle: -90,
+                        position: "insideLeft",
+                      }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "rgba(31, 41, 55, 0.8)",
+                        borderColor: "#4B5563",
+                      }}
+                      formatter={(value) => [`${value} tracks`, "Track Count"]}
+                    />
+                    <Bar
+                      dataKey="count"
+                      fill="#1DB954"
+                      onClick={handleArtistDrillDown}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </motion.div>
 
-              <motion.div className="glass-card p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
-                <h3 className="text-lg font-medium text-white mb-2">How Long Are Tracks?</h3>
-                <p className="text-xs text-gray-500 mb-4">Track count by length category (click for tracks)</p>
+              <motion.div
+                className="glass-card p-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                <h3 className="text-lg font-medium text-white mb-2">
+                  How Long Are Tracks?
+                </h3>
+                <p className="text-xs text-gray-500 mb-4">
+                  Track count by length category (click for tracks)
+                </p>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={trackLengthSpreadData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="name" stroke="#9CA3AF" label={{ value: "Length Categories", position: "insideBottom", offset: -5 }} />
-                    <YAxis stroke="#9CA3AF" label={{ value: "Number of Tracks", angle: -90, position: "insideLeft" }} />
-                    <Tooltip contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} formatter={(value) => [`${value} tracks`, "Track Count"]} />
-                    <Bar dataKey="count" fill="#FF6B6B" onClick={handleLengthDrillDown} />
+                    <XAxis
+                      dataKey="name"
+                      stroke="#9CA3AF"
+                      label={{
+                        value: "Length Categories",
+                        position: "insideBottom",
+                        offset: -5,
+                      }}
+                    />
+                    <YAxis
+                      stroke="#9CA3AF"
+                      label={{
+                        value: "No. of Tracks",
+                        angle: -90,
+                        position: "insideLeft",
+                      }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "rgba(31, 41, 55, 0.8)",
+                        borderColor: "#4B5563",
+                      }}
+                      formatter={(value) => [`${value} tracks`, "Track Count"]}
+                    />
+                    <Bar
+                      dataKey="count"
+                      fill="#FF6B6B"
+                      onClick={handleLengthDrillDown}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </motion.div>
 
-              <motion.div className="glass-card p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
-                <h3 className="text-lg font-medium text-white mb-2">Which Genres Are Most Popular?</h3>
-                <p className="text-xs text-gray-500 mb-4">Average popularity per genre (click for tracks)</p>
+              <motion.div
+                className="glass-card p-6"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+              >
+                <h3 className="text-lg font-medium text-white mb-2">
+                  Which Genres Are Most Popular?
+                </h3>
+                <p className="text-xs text-gray-500 mb-4">
+                  Average popularity per genre (click for tracks)
+                </p>
                 <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={avgPopularityByGenreData}>
+                  <BarChart
+                    data={avgPopularityByGenreData}
+                    margin={{ top: 20, right: 30, left: 20, bottom: 30 }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis dataKey="name" stroke="#9CA3AF" angle={-45} textAnchor="end" height={60} label={{ value: "Genres", position: "insideBottom", offset: -5 }} />
-                    <YAxis stroke="#9CA3AF" domain={[0, 100]} label={{ value: "Average Popularity", angle: -90, position: "insideLeft" }} />
-                    <Tooltip contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} formatter={(value) => [`${value}/100`, "Avg Popularity"]} />
-                    <Bar dataKey="avgPopularity" fill="#FED766" onClick={handleGenrePopDrillDown} />
+                    <XAxis
+                      dataKey="name"
+                      stroke="#9CA3AF"
+                      angle={-45}
+                      textAnchor="end"
+                      height={78}
+                      label={{
+                        value: "Genres",
+                        position: "insideBottom",
+                        offset: -30,
+                      }}
+                    />
+                    <YAxis
+                      stroke="#9CA3AF"
+                      domain={[0, 100]}
+                      label={{
+                        value: "Avg. Popularity",
+                        angle: -90,
+                        position: "insideLeft",
+                        dy: 30,
+                      }}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "rgba(31, 41, 55, 0.8)",
+                        borderColor: "#4B5563",
+                      }}
+                      formatter={(value) => [`${value}/100`, "Avg Popularity"]}
+                    />
+                    <Bar
+                      dataKey="avgPopularity"
+                      fill="#FED766"
+                      onClick={handleGenrePopDrillDown}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </motion.div>
             </div>
 
             {drillDowns.length > 0 && (
-              <motion.div className="glass-card p-6 mt-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+              <motion.div
+                className="glass-card p-6 mt-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
                 <div className="flex flex-wrap gap-2 mb-4">
                   {drillDowns.map((drillDown, index) => (
                     <div
                       key={index}
-                      className={`flex items-center px-3 py-1 rounded-full cursor-pointer ${activeDrillDown === index ? "bg-green-500 text-white" : "bg-gray-700 text-gray-300"}`}
-                      onClick={() => { setActiveDrillDown(index); setSliderIndex(0); }}
+                      className={`flex items-center px-3 py-1 rounded-full cursor-pointer ${
+                        activeDrillDown === index
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-700 text-gray-300"
+                      }`}
+                      onClick={() => {
+                        setActiveDrillDown(index);
+                        setSliderIndex(0);
+                      }}
                     >
                       <span>
-                        {drillDown.type === "genre" ? `${drillDown.value.genre}` : 
-                         drillDown.type === "artist" ? `${drillDown.value.artist}` : 
-                         drillDown.type === "length" ? `${drillDown.value.category}` : 
-                         `${drillDown.value.genre}`}
+                        {drillDown.type === "genre"
+                          ? `${drillDown.value.genre}`
+                          : drillDown.type === "artist"
+                          ? `${drillDown.value.artist}`
+                          : drillDown.type === "length"
+                          ? `${drillDown.value.category}`
+                          : `${drillDown.value.genre}`}
                       </span>
                       <button
                         className="ml-2 text-sm text-red-400 hover:text-red-300"
-                        onClick={(e) => { e.stopPropagation(); removeDrillDown(index); }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeDrillDown(index);
+                        }}
                       >
                         ✕
                       </button>
@@ -312,16 +531,22 @@ const TrendingTracksPage = () => {
                 {activeDrillDown !== null && (
                   <div>
                     <h3 className="text-lg font-medium text-white mb-2">
-                      {drillDowns[activeDrillDown].type === "genre" ? `Top Tracks in ${drillDowns[activeDrillDown].value.genre}` : 
-                       drillDowns[activeDrillDown].type === "artist" ? `Tracks by ${drillDowns[activeDrillDown].value.artist}` : 
-                       drillDowns[activeDrillDown].type === "length" ? `Tracks in ${drillDowns[activeDrillDown].value.category}` : 
-                       `Tracks in ${drillDowns[activeDrillDown].value.genre}`}
+                      {drillDowns[activeDrillDown].type === "genre"
+                        ? `Top Tracks in ${drillDowns[activeDrillDown].value.genre}`
+                        : drillDowns[activeDrillDown].type === "artist"
+                        ? `Tracks by ${drillDowns[activeDrillDown].value.artist}`
+                        : drillDowns[activeDrillDown].type === "length"
+                        ? `Tracks in ${drillDowns[activeDrillDown].value.category}`
+                        : `Tracks in ${drillDowns[activeDrillDown].value.genre}`}
                     </h3>
                     <p className="text-sm mb-4">
-                      {drillDowns[activeDrillDown].type === "genre" ? `Here are the top tracks in ${drillDowns[activeDrillDown].value.genre}.` : 
-                       drillDowns[activeDrillDown].type === "artist" ? `All tracks by ${drillDowns[activeDrillDown].value.artist} in the top hits.` : 
-                       drillDowns[activeDrillDown].type === "length" ? `Tracks in the ${drillDowns[activeDrillDown].value.category} category.` : 
-                       `Tracks in ${drillDowns[activeDrillDown].value.genre} with their popularity.`}
+                      {drillDowns[activeDrillDown].type === "genre"
+                        ? `Here are the top tracks in ${drillDowns[activeDrillDown].value.genre}.`
+                        : drillDowns[activeDrillDown].type === "artist"
+                        ? `All tracks by ${drillDowns[activeDrillDown].value.artist} in the top hits.`
+                        : drillDowns[activeDrillDown].type === "length"
+                        ? `Tracks in the ${drillDowns[activeDrillDown].value.category} category.`
+                        : `Tracks in ${drillDowns[activeDrillDown].value.genre} with their popularity.`}
                     </p>
                     <div className="relative flex items-center">
                       <button
@@ -335,30 +560,62 @@ const TrendingTracksPage = () => {
                         <motion.div
                           className="flex gap-4"
                           animate={{ x: `-${sliderIndex * 33.33}%` }}
-                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                          style={{ width: `${drillDowns[activeDrillDown].value.tracks.length * 33.33}%` }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 30,
+                          }}
+                          style={{
+                            width: `${
+                              drillDowns[activeDrillDown].value.tracks.length *
+                              33.33
+                            }%`,
+                          }}
                         >
-                          {drillDowns[activeDrillDown].value.tracks.map((track, i) => (
-                            <div
-                              key={track.id}
-                              className="flex-shrink-0 w-1/3 p-2 bg-gray-800 rounded"
-                            >
-                              <img
-                                src={track.album?.images?.[2]?.url || "https://via.placeholder.com/64"}
-                                alt={track.name}
-                                className="w-12 h-12 mb-2 rounded"
-                              />
-                              <p className="text-white font-medium text-sm">{track.name}</p>
-                              <p className="text-xs">{track.artists[0]?.name}</p>
-                              <p className="text-xs">Pop: {track.popularity}</p>
-                              <p className="text-xs">Len: {(track.duration_ms / 60000).toFixed(2)} min</p>
-                            </div>
-                          ))}
+                          {drillDowns[activeDrillDown].value.tracks.map(
+                            (track, i) => (
+                              <div
+                                key={track.id}
+                                className="flex-shrink-0 w-1/3 p-2 bg-gray-800 rounded flex"
+                              >
+                                <img
+                                  src={
+                                    track.album?.images?.[2]?.url ||
+                                    "https://via.placeholder.com/64"
+                                  }
+                                  alt={track.name}
+                                  className="mb-2 rounded h-full mr-2 aspect-square"
+                                />
+                                <div>
+                                <p className="text-white font-medium text-sm">
+                                  {track.name}
+                                </p>
+                                <p className="text-xs">
+                                  {track.artists[0]?.name}
+                                </p>
+                                <p className="text-xs">
+                                  Pop: {track.popularity}
+                                </p>
+                                <p className="text-xs">
+                                  Len: {(track.duration_ms / 60000).toFixed(2)}{" "}
+                                  min
+                                </p>
+                                </div>
+                              </div>
+                            )
+                          )}
                         </motion.div>
                       </div>
                       <button
-                        onClick={() => slideRight(drillDowns[activeDrillDown].value.tracks.length)}
-                        disabled={sliderIndex >= drillDowns[activeDrillDown].value.tracks.length - 3}
+                        onClick={() =>
+                          slideRight(
+                            drillDowns[activeDrillDown].value.tracks.length
+                          )
+                        }
+                        disabled={
+                          sliderIndex >=
+                          drillDowns[activeDrillDown].value.tracks.length - 3
+                        }
                         className="p-2 text-green-500 hover:text-green-400 disabled:text-gray-500"
                       >
                         →

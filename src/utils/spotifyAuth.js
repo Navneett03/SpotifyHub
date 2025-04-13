@@ -1,13 +1,18 @@
 
 
 const CLIENT_ID = "219374d3b5cd4f68a21ced4067070aec"; // Your Client ID
-const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI || "http://localhost:5174";
-const SCOPES = "user-top-read user-read-recently-played playlist-read-private user-read-private";
+const REDIRECT_URI = "http://localhost:5174";
+const SCOPES =
+  "user-top-read user-read-recently-played playlist-read-private user-read-private user-library-read user-read-email";
+
+
 export const loginWithSpotify = () => {
   const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(SCOPES)}&show_dialog=true`;
+
   console.log("Redirecting to Spotify auth URL:", authUrl);
   window.location.href = authUrl;
 };
+
 
 export const exchangeCodeForToken = async (code) => {
   console.log("Exchanging code for token:", code);
@@ -17,7 +22,7 @@ export const exchangeCodeForToken = async (code) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ code }),
+      body: JSON.stringify({ code }), // 🟢 Include user_id
     });
 
     const data = await response.json();
@@ -32,6 +37,7 @@ export const exchangeCodeForToken = async (code) => {
     throw error;
   }
 };
+
 
 export const refreshToken = async (refreshToken) => {
   console.log("Refreshing token with refreshToken:", refreshToken);

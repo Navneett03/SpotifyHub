@@ -3,7 +3,7 @@ import { loginWithSpotify } from "../utils/spotifyAuth";
 
 const LoginPage = () => {
   return (
-    <div className="flex items-center justify-center h-screen bg-black">
+    <div className="pl-[475px] flex items-center justify-center h-screen bg-black">
       <motion.div
         className="glass-card p-8 text-center"
         initial={{ opacity: 0, scale: 0.9 }}

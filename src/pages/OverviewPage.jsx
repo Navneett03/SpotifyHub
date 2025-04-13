@@ -356,16 +356,26 @@ const OverviewPage = () => {
     );
   };
 
+const currentDate = new Date().toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
   return (
-    <div className="flex-1 overflow-auto relative z-10 bg-black">
+    <div className="flex-1 overflow-auto relative z-10">
       <Header title="Global Music Overview" />
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         {loading ? (
-          <div className="text-center text-gray-400">Loading your global music insights...</div>
+          <div className="text-center text-gray-400">
+            Loading your global music insights...
+          </div>
         ) : (
           <>
             {errorMessage && (
-              <div className="text-red-500 text-center mb-4">{errorMessage}</div>
+              <div className="text-red-500 text-center mb-4">
+                {errorMessage}
+              </div>
             )}
             <motion.div
               className="glass-card p-6 mb-8"
@@ -373,9 +383,12 @@ const OverviewPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-2xl font-semibold text-white mb-2">Welcome, {userName}!</h2>
+              <h2 className="text-2xl font-semibold text-white mb-2">
+                Welcome, {userName}!
+              </h2>
               <p className="text-gray-300">
-                Here’s your snapshot of global music trends as of March 28, 2025. Explore new releases below!
+                Here’s your snapshot of global music trends as of {currentDate}.
+                Explore new releases below!
               </p>
             </motion.div>
 
@@ -387,22 +400,41 @@ const OverviewPage = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <h2 className="text-3xl font-semibold text-white mb-4">Quick Highlights</h2>
-                  <p className="text-gray-400 mb-4">What’s trending globally right now:</p>
-                  <p className="text-gray-300 text-lg mb-4">
-                    <strong>Latest Release:</strong> <span className="text-green-500">{glanceData.latestRelease}</span>
-                    <br />
-                    <span className="text-sm text-gray-500">The most recent new release worldwide</span>
+                  <h2 className="text-3xl font-semibold text-white mb-4">
+                    Quick Highlights
+                  </h2>
+                  <p className="text-gray-400 mb-4">
+                    What’s trending globally right now:
                   </p>
                   <p className="text-gray-300 text-lg mb-4">
-                    <strong>Most Popular Genre:</strong> <span className="text-green-500">{glanceData.topGenre}</span>
+                    <strong>Latest Release:</strong>{" "}
+                    <span className="text-green-500">
+                      {glanceData.latestRelease}
+                    </span>
                     <br />
-                    <span className="text-sm text-gray-500">The genre with the most new releases</span>
+                    <span className="text-sm text-gray-500">
+                      The most recent new release worldwide
+                    </span>
+                  </p>
+                  <p className="text-gray-300 text-lg mb-4">
+                    <strong>Most Popular Genre:</strong>{" "}
+                    <span className="text-green-500">
+                      {glanceData.topGenre}
+                    </span>
+                    <br />
+                    <span className="text-sm text-gray-500">
+                      The genre with the most new releases
+                    </span>
                   </p>
                   <p className="text-gray-300 text-lg">
-                    <strong>Busiest Artist:</strong> <span className="text-green-500">{glanceData.busiestArtist}</span>
+                    <strong>Busiest Artist:</strong>{" "}
+                    <span className="text-green-500">
+                      {glanceData.busiestArtist}
+                    </span>
                     <br />
-                    <span className="text-sm text-gray-500">Artist with the most recent releases</span>
+                    <span className="text-sm text-gray-500">
+                      Artist with the most recent releases
+                    </span>
                   </p>
                 </motion.div>
 
@@ -412,7 +444,9 @@ const OverviewPage = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  <h3 className="text-xl font-semibold text-white mb-4">Key Stats</h3>
+                  <h3 className="text-xl font-semibold text-white mb-4">
+                    Key Stats
+                  </h3>
                   <div className="grid grid-cols-1 gap-4">
                     <StatCard
                       name="Total Streams"
@@ -449,53 +483,96 @@ const OverviewPage = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <h3 className="text-lg font-medium text-white mb-4">Top 50 Latest Releases</h3>
+                  <h3 className="text-lg font-medium text-white mb-4">
+                    Top 50 Latest Releases
+                  </h3>
                   <p className="text-sm text-gray-400 mb-4">
-                    The latest songs from new releases worldwide, sorted by release date (newest first). Use the tabs to explore insights!
+                    The latest songs from new releases worldwide, sorted by
+                    release date (newest first). Use the tabs to explore
+                    insights!
                   </p>
                   {/* Navbar for Insights */}
-                  <div className="mb-6 bg-gray-900 rounded-md p-2 flex flex-wrap gap-2">
+                  <div
+                    className="mb-6 bg-gray-900 rounded-md p-2 flex flex-wrap gap-2"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.07)", // Tailwind's bg-gray-900 hex value
+                      // opacity: 1, // Override any inherited opacity
+                    }}
+                  >
                     <button
-                      className={`px-3 py-1 rounded-md text-sm ${drillDownInsight?.type === "avgTracks" ? "bg-green-500 text-white" : "bg-gray-800 text-gray-300 hover:bg-gray-700"}`}
+                      className={`px-3 py-1 rounded-md text-sm ${
+                        drillDownInsight?.type === "avgTracks"
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                      }`}
                       onClick={() => handleInsightDrillDown("avgTracks")}
                     >
                       Track Lengths ({releaseInsights.avgTracks})
                     </button>
                     <button
-                      className={`px-3 py-1 rounded-md text-sm ${drillDownInsight?.type === "mostActiveDay" ? "bg-green-500 text-white" : "bg-gray-800 text-gray-300 hover:bg-gray-700"}`}
+                      className={`px-3 py-1 rounded-md text-sm ${
+                        drillDownInsight?.type === "mostActiveDay"
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                      }`}
                       onClick={() => handleInsightDrillDown("mostActiveDay")}
                     >
-                      Release Days ({releaseInsights.mostActiveDay.day}: {releaseInsights.mostActiveDay.count})
+                      Release Days ({releaseInsights.mostActiveDay.day}:{" "}
+                      {releaseInsights.mostActiveDay.count})
                     </button>
                     <button
-                      className={`px-3 py-1 rounded-md text-sm ${drillDownInsight?.type === "genreDiversity" ? "bg-green-500 text-white" : "bg-gray-800 text-gray-300 hover:bg-gray-700"}`}
+                      className={`px-3 py-1 rounded-md text-sm ${
+                        drillDownInsight?.type === "genreDiversity"
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                      }`}
                       onClick={() => handleInsightDrillDown("genreDiversity")}
                     >
                       Genre Mix ({releaseInsights.genreDiversity}%)
                     </button>
                     <button
-                      className={`px-3 py-1 rounded-md text-sm ${drillDownInsight?.type === "recentTypeRatio" ? "bg-green-500 text-white" : "bg-gray-800 text-gray-300 hover:bg-gray-700"}`}
+                      className={`px-3 py-1 rounded-md text-sm ${
+                        drillDownInsight?.type === "recentTypeRatio"
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                      }`}
                       onClick={() => handleInsightDrillDown("recentTypeRatio")}
                     >
-                      Recent Types ({releaseInsights.recentTypeRatio.singles}% S / {releaseInsights.recentTypeRatio.albums}% A)
+                      Recent Types ({releaseInsights.recentTypeRatio.singles}% S
+                      / {releaseInsights.recentTypeRatio.albums}% A)
                     </button>
                     <button
-                      className={`px-3 py-1 rounded-md text-sm ${drillDownInsight?.type === "emergingArtistsByMonth" && !drillDownInsight.value ? "bg-green-500 text-white" : "bg-gray-800 text-gray-300 hover:bg-gray-700"}`}
-                      onClick={() => handleInsightDrillDown("emergingArtistsByMonth")}
+                      className={`px-3 py-1 rounded-md text-sm ${
+                        drillDownInsight?.type === "emergingArtistsByMonth" &&
+                        !drillDownInsight.value
+                          ? "bg-green-500 text-white"
+                          : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                      }`}
+                      onClick={() =>
+                        handleInsightDrillDown("emergingArtistsByMonth")
+                      }
                     >
                       New Artists
                     </button>
-                    {drillDownInsight?.type === "emergingArtistsByMonth" && (
+                    {drillDownInsight?.type === "emergingArtistsByMonth" &&
                       releaseInsights.emergingArtistsByMonth.map((entry, i) => (
                         <button
                           key={i}
-                          className={`px-3 py-1 rounded-md text-sm ${drillDownInsight?.value?.month === entry.month ? "bg-green-500 text-white" : "bg-gray-800 text-gray-300 hover:bg-gray-700"}`}
-                          onClick={() => handleInsightDrillDown("emergingArtistsByMonth", entry)}
+                          className={`px-3 py-1 rounded-md text-sm ${
+                            drillDownInsight?.value?.month === entry.month
+                              ? "bg-green-500 text-white"
+                              : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                          }`}
+                          onClick={() =>
+                            handleInsightDrillDown(
+                              "emergingArtistsByMonth",
+                              entry
+                            )
+                          }
                         >
                           {entry.month} ({entry.count})
                         </button>
-                      ))
-                    )}
+                      ))}
                   </div>
 
                   {/* Drill-Down Content or Top 50 Songs */}
@@ -503,7 +580,10 @@ const OverviewPage = () => {
                     <div className="mb-6">
                       {drillDownInsight.type === "avgTracks" && (
                         <div>
-                          <h5 className="text-white mb-2">Track Count Breakdown (Avg: {releaseInsights.avgTracks})</h5>
+                          <h5 className="text-white mb-2">
+                            Track Count Breakdown (Avg:{" "}
+                            {releaseInsights.avgTracks})
+                          </h5>
                           <div style={{ width: "100%", height: 200 }}>
                             <ResponsiveContainer>
                               <BarChart data={releaseInsights.trackBreakdown}>
@@ -518,17 +598,27 @@ const OverviewPage = () => {
                       )}
                       {drillDownInsight.type === "mostActiveDay" && (
                         <div>
-                          <h5 className="text-white mb-2">Releases on {releaseInsights.mostActiveDay.day} ({releaseInsights.mostActiveDay.count})</h5>
+                          <h5 className="text-white mb-2">
+                            Releases on {releaseInsights.mostActiveDay.day} (
+                            {releaseInsights.mostActiveDay.count})
+                          </h5>
                           <ul className="text-gray-300 text-sm max-h-[200px] overflow-y-auto">
-                            {releaseInsights.mostActiveDay.releases.map((r, i) => (
-                              <li key={i}>{r.name} by {r.artist}</li>
-                            ))}
+                            {releaseInsights.mostActiveDay.releases.map(
+                              (r, i) => (
+                                <li key={i}>
+                                  {r.name} by {r.artist}
+                                </li>
+                              )
+                            )}
                           </ul>
                         </div>
                       )}
                       {drillDownInsight.type === "genreDiversity" && (
                         <div>
-                          <h5 className="text-white mb-2">Genre Breakdown ({releaseInsights.genreDiversity}% Multi-Genre)</h5>
+                          <h5 className="text-white mb-2">
+                            Genre Breakdown ({releaseInsights.genreDiversity}%
+                            Multi-Genre)
+                          </h5>
                           <div style={{ width: "100%", height: 200 }}>
                             <ResponsiveContainer>
                               <PieChart>
@@ -541,9 +631,14 @@ const OverviewPage = () => {
                                   outerRadius={80}
                                   label
                                 >
-                                  {releaseInsights.genreBreakdown.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                  ))}
+                                  {releaseInsights.genreBreakdown.map(
+                                    (entry, index) => (
+                                      <Cell
+                                        key={`cell-${index}`}
+                                        fill={COLORS[index % COLORS.length]}
+                                      />
+                                    )
+                                  )}
                                 </Pie>
                                 <Tooltip />
                               </PieChart>
@@ -553,48 +648,75 @@ const OverviewPage = () => {
                       )}
                       {drillDownInsight.type === "recentTypeRatio" && (
                         <div>
-                          <h5 className="text-white mb-2">Last Week’s Releases ({releaseInsights.recentTypeRatio.singles}% Singles, {releaseInsights.recentTypeRatio.albums}% Albums)</h5>
+                          <h5 className="text-white mb-2">
+                            Last Week’s Releases (
+                            {releaseInsights.recentTypeRatio.singles}% Singles,{" "}
+                            {releaseInsights.recentTypeRatio.albums}% Albums)
+                          </h5>
                           <div className="text-gray-300 text-sm max-h-[200px] overflow-y-auto">
-                            <p><strong>Singles:</strong></p>
+                            <p>
+                              <strong>Singles:</strong>
+                            </p>
                             <ul>
-                              {releaseInsights.recentTypeRatio.singlesList.map((r, i) => (
-                                <li key={i}>{r.name} by {r.artist}</li>
-                              ))}
+                              {releaseInsights.recentTypeRatio.singlesList.map(
+                                (r, i) => (
+                                  <li key={i}>
+                                    {r.name} by {r.artist}
+                                  </li>
+                                )
+                              )}
                             </ul>
-                            <p className="mt-2"><strong>Albums:</strong></p>
+                            <p className="mt-2">
+                              <strong>Albums:</strong>
+                            </p>
                             <ul>
-                              {releaseInsights.recentTypeRatio.albumsList.map((r, i) => (
-                                <li key={i}>{r.name} by {r.artist}</li>
-                              ))}
+                              {releaseInsights.recentTypeRatio.albumsList.map(
+                                (r, i) => (
+                                  <li key={i}>
+                                    {r.name} by {r.artist}
+                                  </li>
+                                )
+                              )}
                             </ul>
                           </div>
                         </div>
                       )}
-                      {drillDownInsight.type === "emergingArtistsByMonth" && !drillDownInsight.value && (
-                        <div>
-                          <h5 className="text-white mb-2">Emerging Artists by Month</h5>
-                          <div style={{ width: "100%", height: 200 }}>
-                            <ResponsiveContainer>
-                              <BarChart data={releaseInsights.emergingArtistsByMonth}>
-                                <XAxis dataKey="month" stroke="#9CA3AF" />
-                                <YAxis stroke="#9CA3AF" />
-                                <Tooltip />
-                                <Bar dataKey="count" fill="#1DB954" />
-                              </BarChart>
-                            </ResponsiveContainer>
+                      {drillDownInsight.type === "emergingArtistsByMonth" &&
+                        !drillDownInsight.value && (
+                          <div>
+                            <h5 className="text-white mb-2">
+                              Emerging Artists by Month
+                            </h5>
+                            <div style={{ width: "100%", height: 200 }}>
+                              <ResponsiveContainer>
+                                <BarChart
+                                  data={releaseInsights.emergingArtistsByMonth}
+                                >
+                                  <XAxis dataKey="month" stroke="#9CA3AF" />
+                                  <YAxis stroke="#9CA3AF" />
+                                  <Tooltip />
+                                  <Bar dataKey="count" fill="#1DB954" />
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                      {drillDownInsight.type === "emergingArtistsByMonth" && drillDownInsight.value && (
-                        <div>
-                          <h5 className="text-white mb-2">Emerging Artists in {drillDownInsight.value.month} ({drillDownInsight.value.count})</h5>
-                          <ul className="text-gray-300 text-sm max-h-[200px] overflow-y-auto">
-                            {drillDownInsight.value.artists.map((artist, i) => (
-                              <li key={i}>{artist}</li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                        )}
+                      {drillDownInsight.type === "emergingArtistsByMonth" &&
+                        drillDownInsight.value && (
+                          <div>
+                            <h5 className="text-white mb-2">
+                              Emerging Artists in {drillDownInsight.value.month}{" "}
+                              ({drillDownInsight.value.count})
+                            </h5>
+                            <ul className="text-gray-300 text-sm max-h-[200px] overflow-y-auto">
+                              {drillDownInsight.value.artists.map(
+                                (artist, i) => (
+                                  <li key={i}>{artist}</li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        )}
                     </div>
                   ) : (
                     <div className="max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
@@ -608,18 +730,27 @@ const OverviewPage = () => {
                                 className="flex items-center justify-between p-3 bg-gray-800 rounded-md hover:bg-gray-700 transition-colors"
                               >
                                 <div className="flex-1 min-w-0">
-                                  <p className="text-white font-medium truncate">{song.name}</p>
-                                  <p className="text-gray-400 text-sm truncate">by {song.artist}</p>
+                                  <p className="text-white font-medium truncate">
+                                    {song.name}
+                                  </p>
+                                  <p className="text-gray-400 text-sm truncate">
+                                    by {song.artist}
+                                  </p>
                                 </div>
                                 <div className="text-right ml-4">
                                   <p className="text-gray-300 text-sm">
-                                    {formatReleaseDate(song.release_date, song.release_date_precision)}
+                                    {formatReleaseDate(
+                                      song.release_date,
+                                      song.release_date_precision
+                                    )}
                                   </p>
                                 </div>
                               </div>
                             ))
                         ) : (
-                          <p className="text-gray-400 text-center">No songs available</p>
+                          <p className="text-gray-400 text-center">
+                            No songs available
+                          </p>
                         )}
                       </div>
                     </div>
@@ -634,29 +765,67 @@ const OverviewPage = () => {
                 >
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-medium text-white">
-                      {drillDown.type === "genre" ? `Top Releases in ${drillDown.value.genre}` : 
-                       drillDown.type === "artist" ? `${drillDown.value.artist}'s Release Types` : "Top Genres Worldwide"}
+                      {drillDown.type === "genre"
+                        ? `Top Releases in ${drillDown.value.genre}`
+                        : drillDown.type === "artist"
+                        ? `${drillDown.value.artist}'s Release Types`
+                        : "Top Genres Worldwide"}
                     </h3>
                     {drillDown.type && (
-                      <button onClick={resetDrillDown} className="text-green-500 hover:text-green-400">Back to Main View</button>
+                      <button
+                        onClick={resetDrillDown}
+                        className="text-green-500 hover:text-green-400"
+                      >
+                        Back to Main View
+                      </button>
                     )}
                   </div>
                   <p className="text-sm text-gray-400 mb-4">
-                    {drillDown.type === "genre" ? 
-                      `See the latest releases in ${drillDown.value.genre}. Click a bar to explore the artist!` : 
-                      drillDown.type === "artist" ? 
-                      `Breakdown of ${drillDown.value.artist}'s recent releases by type (singles vs. albums)` : 
-                      "The most common genres in new releases globally. Click a slice to dive in!"}
+                    {drillDown.type === "genre"
+                      ? `See the latest releases in ${drillDown.value.genre}. Click a bar to explore the artist!`
+                      : drillDown.type === "artist"
+                      ? `Breakdown of ${drillDown.value.artist}'s recent releases by type (singles vs. albums)`
+                      : "The most common genres in new releases globally. Click a slice to dive in!"}
                   </p>
                   <div style={{ width: "100%", height: 300 }}>
                     <ResponsiveContainer>
                       {drillDown.type === "genre" ? (
-                        <BarChart data={drillDown.value.releases} onClick={handleReleaseDrillDown}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                          <XAxis dataKey="name" stroke="#9CA3AF" label={{ value: "Release Title", position: "insideBottom", offset: -5 }} />
-                          <YAxis stroke="#9CA3AF" label={{ value: "Tracks", angle: -90, position: "insideLeft" }} />
-                          <Tooltip contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} />
-                          <Bar dataKey="total_tracks" fill="#1DB954" name="Number of Tracks" />
+                        <BarChart
+                          data={drillDown.value.releases}
+                          onClick={handleReleaseDrillDown}
+                        >
+                          <CartesianGrid
+                            strokeDasharray="3 3"
+                            stroke="#374151"
+                          />
+                          <XAxis
+                            dataKey="name"
+                            stroke="#9CA3AF"
+                            label={{
+                              value: "Release Title",
+                              position: "insideBottom",
+                              offset: -5,
+                            }}
+                          />
+                          <YAxis
+                            stroke="#9CA3AF"
+                            label={{
+                              value: "Tracks",
+                              angle: -90,
+                              position: "insideLeft",
+                            }}
+                          />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: "rgba(31, 41, 55, 0.8)",
+                              borderColor: "#4B5563",
+                            }}
+                          />
+                          <Bar
+                            dataKey="total_tracks"
+                            fill="#1DB954"
+                            name="Number of Tracks"
+                          />
                         </BarChart>
                       ) : drillDown.type === "artist" ? (
                         <PieChart>
@@ -669,11 +838,21 @@ const OverviewPage = () => {
                             outerRadius={80}
                             label={({ name, value }) => `${name}: ${value}`}
                           >
-                            {drillDown.value.typeBreakdown.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
+                            {drillDown.value.typeBreakdown.map(
+                              (entry, index) => (
+                                <Cell
+                                  key={`cell-${index}`}
+                                  fill={COLORS[index % COLORS.length]}
+                                />
+                              )
+                            )}
                           </Pie>
-                          <Tooltip contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: "rgba(31, 41, 55, 0.8)",
+                              borderColor: "#4B5563",
+                            }}
+                          />
                         </PieChart>
                       ) : (
                         <PieChart>
@@ -688,65 +867,154 @@ const OverviewPage = () => {
                             onClick={handleGenreDrillDown}
                           >
                             {insights.genreDominance.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                              <Cell
+                                key={`cell-${index}`}
+                                fill={COLORS[index % COLORS.length]}
+                              />
                             ))}
                           </Pie>
-                          <Tooltip formatter={(value, name) => [`${value} releases`, name]} contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} />
+                          <Tooltip
+                            formatter={(value, name) => [
+                              `${value} releases`,
+                              name,
+                            ]}
+                            contentStyle={{
+                              backgroundColor: "rgba(31, 41, 55, 0.8)",
+                              borderColor: "#4B5563",
+                            }}
+                          />
                         </PieChart>
                       )}
                     </ResponsiveContainer>
                   </div>
                   {drillDown.type === "artist" && (
                     <div className="mt-4 text-gray-300">
-                      <p><strong>Total Releases:</strong> {drillDown.value.releases.length} new releases by this artist</p>
-                      <p><strong>Main Genres:</strong> {drillDown.value.genres.join(", ") || "Not specified"}</p>
-                      <p><strong>Latest Release:</strong> {drillDown.value.releases[0]?.name} (Released: {formatReleaseDate(drillDown.value.releases[0]?.release_date, drillDown.value.releases[0]?.release_date_precision)})</p>
+                      <p>
+                        <strong>Total Releases:</strong>{" "}
+                        {drillDown.value.releases.length} new releases by this
+                        artist
+                      </p>
+                      <p>
+                        <strong>Main Genres:</strong>{" "}
+                        {drillDown.value.genres.join(", ") || "Not specified"}
+                      </p>
+                      <p>
+                        <strong>Latest Release:</strong>{" "}
+                        {drillDown.value.releases[0]?.name} (Released:{" "}
+                        {formatReleaseDate(
+                          drillDown.value.releases[0]?.release_date,
+                          drillDown.value.releases[0]?.release_date_precision
+                        )}
+                        )
+                      </p>
                     </div>
                   )}
                 </motion.div>
 
                 <motion.div
-                  className="glass-card p-6"
+                  className="glass-card p-6 " 
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
                 >
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-medium text-white">
-                      {drillDown.type === "artist" ? `${drillDown.value.artist}'s Recent Releases` : "Release Activity Over Time"}
+                      {drillDown.type === "artist"
+                        ? `${drillDown.value.artist}'s Recent Releases`
+                        : "Release Activity Over Time"}
                     </h3>
                     {drillDown.type === "artist" && (
-                      <button onClick={resetDrillDown} className="text-green-500 hover:text-green-400">Back to Main View</button>
+                      <button
+                        onClick={resetDrillDown}
+                        className="text-green-500 hover:text-green-400"
+                      >
+                        Back to Main View
+                      </button>
                     )}
                   </div>
                   <p className="text-sm text-gray-400 mb-4">
-                    {drillDown.type === "artist" ? 
-                      `All recent releases by ${drillDown.value.artist}, sorted by date` : 
-                      "How many new releases happened globally recently vs. earlier. Hover for exact counts!"}
+                    {drillDown.type === "artist"
+                      ? `All recent releases by ${drillDown.value.artist}, sorted by date`
+                      : "How many new releases happened globally recently vs. earlier. Hover for exact counts!"}
                   </p>
                   <div style={{ width: "100%", height: 300 }}>
                     <ResponsiveContainer>
                       {drillDown.type === "artist" ? (
                         <BarChart data={drillDown.value.releases}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                          <XAxis dataKey="name" stroke="#9CA3AF" label={{ value: "Release Title", position: "insideBottom", offset: -5 }} />
-                          <YAxis stroke="#9CA3AF" label={{ value: "Tracks", angle: -90, position: "insideLeft" }} />
-                          <Tooltip contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} />
-                          <Bar dataKey="total_tracks" fill="#1DB954" name="Number of Tracks" />
+                          <CartesianGrid
+                            strokeDasharray="3 3"
+                            stroke="#374151"
+                          />
+                          <XAxis
+                            dataKey="name"
+                            stroke="#9CA3AF"
+                            label={{
+                              value: "Release Title",
+                              position: "insideBottom",
+                              offset: -5,
+                            }}
+                          />
+                          <YAxis
+                            stroke="#9CA3AF"
+                            label={{
+                              value: "Tracks",
+                              angle: -90,
+                              position: "insideLeft",
+                            }}
+                          />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: "rgba(31, 41, 55, 0.8)",
+                              borderColor: "#4B5563",
+                            }}
+                          />
+                          <Bar
+                            dataKey="total_tracks"
+                            fill="#1DB954"
+                            name="Number of Tracks"
+                          />
                         </BarChart>
                       ) : (
                         <BarChart data={insights.releaseTrends}>
-                          <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                          <XAxis dataKey="name" stroke="#9CA3AF" label={{ value: "Time Period", position: "insideBottom", offset: -5 }} />
-                          <YAxis stroke="#9CA3AF" label={{ value: "Releases", angle: -90, position: "insideLeft" }} />
-                          <Tooltip contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} />
-                          <Bar dataKey="value" fill="#1DB954" name="Number of Releases" />
+                          <CartesianGrid
+                            strokeDasharray="3 3"
+                            stroke="#374151"
+                          />
+                          <XAxis
+                            dataKey="name"
+                            stroke="#9CA3AF"
+                            label={{
+                              value: "Time Period",
+                              position: "insideBottom",
+                              offset: -5,
+                            }}
+                          />
+                          <YAxis
+                            stroke="#9CA3AF"
+                            label={{
+                              value: "Releases",
+                              angle: -90,
+                              position: "insideLeft",
+                            }}
+                          />
+                          <Tooltip
+                            contentStyle={{
+                              backgroundColor: "rgba(31, 41, 55, 0.8)",
+                              borderColor: "#4B5563",
+                            }}
+                          />
+                          <Bar
+                            dataKey="value"
+                            fill="#1DB954"
+                            name="Number of Releases"
+                          />
                         </BarChart>
                       )}
                     </ResponsiveContainer>
                   </div>
                 </motion.div>
 
+                
                 <motion.div
                   className="glass-card p-6"
                   initial={{ opacity: 0, y: 20 }}
@@ -754,10 +1022,13 @@ const OverviewPage = () => {
                   transition={{ delay: 0.8 }}
                 >
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-lg font-medium text-white">Singles vs. Albums Globally</h3>
+                    <h3 className="text-lg font-medium text-white">
+                      Singles vs. Albums Globally
+                    </h3>
                   </div>
                   <p className="text-sm text-gray-400 mb-4">
-                    See the split between new singles and albums worldwide. Hover to see the numbers!
+                    See the split between new singles and albums worldwide.
+                    Hover to see the numbers!
                   </p>
                   <div style={{ width: "100%", height: 300 }}>
                     <ResponsiveContainer>
@@ -772,10 +1043,22 @@ const OverviewPage = () => {
                           label={({ name, value }) => `${name}: ${value}`}
                         >
                           {insights.releaseTypes.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
                           ))}
                         </Pie>
-                        <Tooltip formatter={(value, name) => [`${value} releases`, name]} contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} />
+                        <Tooltip
+                          formatter={(value, name) => [
+                            `${value} releases`,
+                            name,
+                          ]}
+                          contentStyle={{
+                            backgroundColor: "rgba(31, 41, 55, 0.8)",
+                            borderColor: "#4B5563",
+                          }}
+                        />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>

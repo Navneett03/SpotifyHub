@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom glass-card effect to match your original project */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 @layer base {
   html, body {
     @apply h-full bg-black text-white;

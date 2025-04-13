@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from langchain.docstore.document import Document
@@ -10,16 +11,18 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.schema.output_parser import StrOutputParser
 
+load_dotenv()
+
 # Initialize Flask App
 app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend access
 
 # Set API Keys & Environment Variables
-os.environ["GOOGLE_API_KEY"] = "AIzaSyDUKe0P5kaqHNG3l0cHDUcfkdDAVuCMcu4"
+os.environ["GOOGLE_API_KEY"] = os.getenv("GOOGLE_API_KEY")
 
-SPOTIFY_CLIENT_ID = "f184137f28424c3990fae6e734285148"
-SPOTIFY_CLIENT_SECRET = "4e5453622c2b4843988d399adbab5535"
-SPOTIFY_REDIRECT_URI = "http://localhost:8888/callback"
+SPOTIFY_CLIENT_ID = os.getenv("CLIENT_ID")
+SPOTIFY_CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+SPOTIFY_REDIRECT_URI = os.getenv("REDIRECT_URI")
 SCOPES = "user-library-read user-top-read user-read-recently-played user-follow-read playlist-read-private playlist-read-collaborative user-read-playback-state user-read-currently-playing"
 
 # Spotify Authentication
