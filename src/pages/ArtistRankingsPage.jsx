@@ -26,7 +26,7 @@ const CustomTooltip = ({ active, payload, label, activeArtist }) => {
     const entry = payload.find(p => p.dataKey === activeArtist);
     if (entry) {
       return (
-        <div className="bg-gray-800 p-3 rounded-lg border border-gray-700 text-white">
+        <div className="bg-gray-800 bg-opacity-100 p-3 rounded-lg border border-gray-700 text-white">
           <p className="font-semibold">Month: {label}</p>
           <p style={{ color: entry.color }}>{entry.name}: {entry.value.toFixed(1)}</p>
         </div>
