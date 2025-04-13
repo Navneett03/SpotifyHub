@@ -8,28 +8,35 @@ import os
 # Create a folder to store graphs
 os.makedirs('charts', exist_ok=True)
 
-def generate_weekly_listening_chart(user_id, daily_listening):
-    if not daily_listening:
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+def generate_weekly_listening_chart(user_id, distribution, labels):
+    
+    if not distribution or not labels or len(distribution) != len(labels):
         return None
 
-    # Map day indices to names (assuming Monday = 0)
-    days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     df = pd.DataFrame({
-        'Day': days,
-        'Listening Hours': daily_listening
+        'Date': labels,
+        'Listening Hours': distribution
     })
 
     plt.figure(figsize=(10, 5))
-    sns.lineplot(data=df, x='Day', y='Listening Hours', marker='o', linewidth=2.5, color='#1DB954')
-    plt.title('Weekly Listening Insights')
-    plt.xlabel('Day of the Week')
+    sns.lineplot(data=df, x='Date', y='Listening Hours', marker='o', linewidth=2.5, color='#1DB954')
+    plt.title(f'Weekly Listening Insights', fontsize=14)
+    plt.xlabel('Date')
     plt.ylabel('Total Listening Time (hrs)')
+    plt.xticks(rotation=0)
     plt.grid(True, linestyle='--', alpha=0.6)
 
     path = f'charts/{user_id}_weekly_listening.png'
+    plt.tight_layout()
     plt.savefig(path, bbox_inches='tight')
     plt.close()
     return path
+
+
 
 def generate_genre_distribution_chart(user_id, genres):
     if not genres:
