@@ -9,7 +9,7 @@ SpotifyHub is a web-based application that integrates with Spotify to provide us
 - **Chatbot Support**: AI-powered chatbot that answers questions about data from the dashboard and newsletter.
 - **Email Newsletters**: Scheduled newsletters summarizing key insights with visualizations.
 - **Automation**: Scripts for fetching data, generating newsletters, and sending emails automatically.
-- **Modern UI**: Built with React and TailwindCSS for a responsive experience.
+- **Modern UI**: Built with React and TailwindCSS for a responsive experience .
 
 ## Implemented Pages
 
