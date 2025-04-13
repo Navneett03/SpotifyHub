@@ -23,7 +23,7 @@ SpotifyHub is a web-based platform that integrates seamlessly with the Spotify A
 - **Genre Insights Page** – Analyzes music genre distribution.
 - **Trending Tracks Page** – Shows currently trending songs.
 - **My Listening Page** – Personalized dashboard with listening history.
-- **Recommendations Page** – AI-powered music suggestions.
+- **Recommendations Page** – Personalised music suggestions.
 - **Chatbot Page** – Query your dashboard data through an AI assistant.
 - **Send Newsletters Page** – Schedule and send insights via email.
 - **Playlist Generator Page** – Create AI-based playlists from user prompts.
