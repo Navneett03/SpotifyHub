@@ -848,10 +848,10 @@ const currentDate = new Date().toLocaleDateString("en-US", {
                             )}
                           </Pie>
                           <Tooltip
-                            contentStyle={{
-                              backgroundColor: "rgba(31, 41, 55, 0.8)",
-                              borderColor: "#4B5563",
-                            }}
+                          labelStyle={{ color: "#ffffff" }} 
+                          itemStyle={{ color: "#ffffff" }} 
+                          formatter={(value, name) => [`${value} releases`, name]}
+                          contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }} 
                           />
                         </PieChart>
                       ) : (
@@ -874,6 +874,8 @@ const currentDate = new Date().toLocaleDateString("en-US", {
                             ))}
                           </Pie>
                           <Tooltip
+                            labelStyle={{ color: "#ffffff" }} 
+                            itemStyle={{ color: "#ffffff" }} 
                             formatter={(value, name) => [
                               `${value} releases`,
                               name,
@@ -1050,6 +1052,8 @@ const currentDate = new Date().toLocaleDateString("en-US", {
                           ))}
                         </Pie>
                         <Tooltip
+                          labelStyle={{ color: "#ffffff" }} 
+                          itemStyle={{ color: "#ffffff" }}
                           formatter={(value, name) => [
                             `${value} releases`,
                             name,
