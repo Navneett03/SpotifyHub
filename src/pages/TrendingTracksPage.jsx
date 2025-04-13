@@ -309,10 +309,10 @@ const TrendingTracksPage = () => {
                       contentStyle={{
                         backgroundColor: "rgba(31, 41, 55, 0.8)",
                         borderColor: "#4B5563",
-                        color: "#ffffff",///////
+                        color: "#ffffff",
                       }}
-                      labelStyle={{ color: "#ffffff" }} ///// White label text
-                      itemStyle={{ color: "#ffffff" }}//////
+                      labelStyle={{ color: "#ffffff" }} 
+                      itemStyle={{ color: "#ffffff" }}
                       formatter={(value, name) => [
                         `${value} tracks (${(
                           (value / summaryStats.totalTracks) *
