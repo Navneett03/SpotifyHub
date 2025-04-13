@@ -11,17 +11,17 @@ app.conf.update(
         "send-weekly-newsletter": {
             "task": "tasks.weekly_job",  # Reference task by name
             # "schedule": crontab(minute="*"),  # Monday at 9 AM
-             'schedule': crontab(hour=17, minute=51, day_of_week=6),  # Monday at 10 AM
+             'schedule': crontab(hour=23, minute=59, day_of_week=6),  # Sunday at 11:59 PM IST
         },
         "fetch-all-users-data-daily": {
             "task": "tasks.daily_fetch_task",
-            "schedule": crontab(hour=17, minute=38),  # Run daily at midnight UTC
+            "schedule": crontab(hour=23, minute=45),  # Run daily at 11:45 PM IST
         },
         "update-weekly-stats": {
             "task": "tasks.weekly_update_task",
             "schedule": crontab(
-                hour=17, minute=41, day_of_week=6
-            ),  # Monday at 9:50 AM UTC
+                hour=23, minute=55, day_of_week=6
+            ),  # Sunday at 11:55 PM IST
         },
     },
     broker_connection_retry_on_startup=True,
