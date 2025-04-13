@@ -10,6 +10,7 @@ SpotifyHub is a web-based platform that integrates seamlessly with the Spotify A
 - **Interactive Dashboard** – Visualize listening activity, trends, and personalized stats through rich data visualizations.
 - **AI Chatbot Support** – Ask questions and get insights about your listening data and newsletters via an AI assistant.
 - **Email Newsletters** – Receive automated weekly summaries of your music behavior with embedded charts.
+- **Personalised Recommendation** - Provides personalised and user choosen genre and mood related songs.
 - **Playlist Generator** – Create playlists based on mood, weather, situation, or custom prompts using AI.
 - **Automation** – Automated data collection, report generation, and email dispatch.
 - **Modern UI** – Built with React and TailwindCSS for a fast, responsive, and user-friendly interface.
