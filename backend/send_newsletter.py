@@ -14,9 +14,7 @@ from zoneinfo import ZoneInfo
 
 # Use Indian Standard Time directly
 today = datetime.now(ZoneInfo("Asia/Kolkata"))
-current_weekday = today.weekday()
-last_monday = today - timedelta(days=current_weekday + 7)
-last_sunday = last_monday + timedelta(days=6)
+seven_days_ago = today - timedelta(days=6)
 
 
 # Set up logging
@@ -88,7 +86,7 @@ def generate_newsletter_content(user_id, email):
             <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px;">
                 <!-- Key Metrics Section -->
                 <h2 style="color: #1DB954; font-size: 20px; border-bottom: 2px solid #1DB954; padding-bottom: 5px;">Key Metrics</h2>
-                <p style="font-size: 16px;">Here's your music summary for the week of {last_monday.strftime('%B %d')} - {last_sunday.strftime('%B %d, %Y')}:</p>
+                <p style="font-size: 16px;">Here's your music summary for the week of {seven_days_ago.strftime('%B %d')} - {today.strftime('%B %d, %Y')}:</p>
                 <p style="font-size: 18px; font-weight: bold;">Total Listening Time: {total_hours:.1f} hours</p>
                 
                 <h3 style="font-size: 18px; color: #333;">Top 5 Tracks This Week:</h3>
@@ -145,41 +143,41 @@ def generate_newsletter_content(user_id, email):
 
 def send_newsletter(user_id, email):
     try:
-        # Generate charts
-        from charts import (
-            generate_weekly_listening_chart,
-            generate_genre_distribution_chart,
-        )
+        # # Generate charts
+        # from charts import (
+        #     generate_weekly_listening_chart,
+        #     generate_genre_distribution_chart,
+        # )
 
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
+        # conn = get_db_connection()
+        # cursor = conn.cursor(dictionary=True)
 
-        try:
-            cursor.execute(
-                "SELECT distribution FROM weekly_distribution WHERE user_id = %s",
-                (user_id,),
-            )
-            weekly_dist_row = cursor.fetchone()
-            weekly_dist = (
-                json.loads(weekly_dist_row["distribution"]) if weekly_dist_row else []
-            )
-            logger.info(f"Weekly dist for chart {user_id}: {weekly_dist}")
+        # try:
+        #     cursor.execute(
+        #         "SELECT distribution FROM weekly_distribution WHERE user_id = %s",
+        #         (user_id,),
+        #     )
+        #     weekly_dist_row = cursor.fetchone()
+        #     weekly_dist = (
+        #         json.loads(weekly_dist_row["distribution"]) if weekly_dist_row else []
+        #     )
+        #     logger.info(f"Weekly dist for chart {user_id}: {weekly_dist}")
 
-            cursor.execute(
-                "SELECT distribution FROM genre_distribution WHERE user_id = %s",
-                (user_id,),
-            )
-            genre_dist_row = cursor.fetchone()
-            genre_dist = (
-                json.loads(genre_dist_row["distribution"]) if genre_dist_row else {}
-            )
-            logger.info(f"Genre dist for chart {user_id}: {genre_dist}")
-        finally:
-            cursor.close()
-            conn.close()
+        #     cursor.execute(
+        #         "SELECT distribution FROM genre_distribution WHERE user_id = %s",
+        #         (user_id,),
+        #     )
+        #     genre_dist_row = cursor.fetchone()
+        #     genre_dist = (
+        #         json.loads(genre_dist_row["distribution"]) if genre_dist_row else {}
+        #     )
+        #     logger.info(f"Genre dist for chart {user_id}: {genre_dist}")
+        # finally:
+        #     cursor.close()
+        #     conn.close()
 
-        weekly_chart_path = generate_weekly_listening_chart(user_id, weekly_dist)
-        genre_chart_path = generate_genre_distribution_chart(user_id, genre_dist)
+        weekly_chart_path =  f'charts/{user_id}_weekly_listening.png'
+        genre_chart_path = f'charts/{user_id}_genre_distribution.png'
 
         logger.info(f"Weekly chart path: {weekly_chart_path}")
         logger.info(f"Genre chart path: {genre_chart_path}")
